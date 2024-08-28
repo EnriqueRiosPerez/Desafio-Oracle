@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desencriptador</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<main>
+    
+    <section class="leftcontainer">
+        <div>
+            <textarea name="input-Text" id="input_text" placeholder="Ingrese el texto aqui"></textarea>
+        </div>
+        <footer>
+            <button type="button" id="Encriptar" class="Primary">Encriptar</button>
+            <button type="button" id="Desencriptar">Desencriptar</button>
+
+        </footer>       
+    </section>
+<section class="rigthcontainer">
+        <div>
+            <textarea name="" id="output_text" placeholder="Ningun mensaje fue encontrado"></textarea>
+
+        </div>
+        <footer>
+            <button id="Copiar">Copiar</button>
+            
+        </footer>       
+    </section>
+</main>
+
+    
+
+<script>
+    let encriptar = document.getElementById("Encriptar")
+    let desencriptar = document.getElementById("Desencriptar")
+    let input = document.getElementById("input_text")
+    let output = document.getElementById("output_text")
+    let copiar = document.getElementById("Copiar")
+    const regex2 = /.*[A-Z\W].*/;
+
+    async function validacion(palabra) {
+
+        const result = regex2.test(palabra);
+        console.log(result);
+        return result
+
+
+    }
+
+    let Valores_Encriptar = {
+            e: "enter",
+            i: "imes",
+            a: "ai",
+            o: "ober",
+            u: "ufat"
+        };
+        let Valores_Desencriptar = {
+            enter: "e",
+            imes: "i",
+            ai: "a",
+            ober: "o",
+            ufat: "u"
+        }
+    async function Procesamiento(opc) {
+        
+
+
+        let valor = input.value
+        let validacion2 = await validacion(valor) 
+        if (validacion2 === false) {
+            input.value = ""
+            if (opc == 1) {
+                valor = valor.replace(/e|i|a|o|u/g, function (matched) {
+                    return Valores_Encriptar[matched];
+                });
+            } else {
+                valor = valor.replace(/enter|imes|ai|ober|ufat/g, function (matched) {
+                    return Valores_Desencriptar[matched];
+                });
+            }
+            output.value = valor
+        }else if(validacion2 === true) {
+            alert("El valor a decodificar debe de tener solo minusculas y no debe de tener valores especiales y sin acentos")
+            input.value = ""
+            valor = ""
+            // output.value = ""
+
+        }
+        
+    }
+
+    encriptar.addEventListener("click", async ()=>{    
+        Procesamiento(1)
+
+    })
+
+    desencriptar.addEventListener("click", async ()=>{
+        Procesamiento(0)
+    })
+    copiar.addEventListener("click", async ()=>{
+        output.select()
+        document.execCommand("copy");
+    })
+
+
+
+
+
+</script>
+</body>
+</html>
+
+
+
